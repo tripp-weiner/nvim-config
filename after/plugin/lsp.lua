@@ -11,7 +11,7 @@ lsp_zero.on_attach(function(client, bufnr)
   vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
   vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
   vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
-  vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
+  vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 end)
 
@@ -19,15 +19,45 @@ end)
 -- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  ensure_installed = {'tsserver', 'rust_analyzer', 'bashls', 'omnisharp', 'cssls', 'dockerls', 'docker_compose_language_service', 'gopls', 'jsonls', 'jqls', 'lua_ls', 'intelephense', 'pyright', 'sqlls'},
+  ensure_installed = {'rust_analyzer', 'bashls', 'omnisharp', 'cssls', 'dockerls', 'docker_compose_language_service', 'gopls', 'jsonls', 'jqls', 'lua_ls', 'intelephense', 'pyright', 'sqlls'},
   handlers = {
     lsp_zero.default_setup,
     lua_ls = function()
       local lua_opts = lsp_zero.nvim_lua_ls()
       require('lspconfig').lua_ls.setup(lua_opts)
     end,
+    htmx = function()
+      require('lspconfig').htmx.setup({
+        on_attach = lsp_zero.on_attach,
+        capabilites = lsp_zero.capabilities,
+        filetypes = {'html', 'templ'},
+      })
+    end,
+    html = function()
+      require('lspconfig').html.setup({
+        on_attach = lsp_zero.on_attach,
+        capabilites = lsp_zero.capabilities,
+        filetypes = {'html', 'templ'},
+      })
+    end,
+    tailwindcss = function()
+      require('lspconfig').tailwindcss.setup({
+        on_attach = lsp_zero.on_attach,
+        capabilites = lsp_zero.capabilities,
+        filetypes = {'css', 'html', 'templ', 'javascript'},
+        includeLanguages = {css = 'css', html = 'html', templ = 'html'}})
+    end,
+    gopls = function()
+      local filetypes = {'go', 'gomod', 'gowork', 'gotmpl'}
+      require('lspconfig').gopls.setup({
+        on_attach = lsp_zero.on_attach,
+        capabilites = lsp_zero.capabilities,
+				filetypes = filetypes
+			})
+    end,
   }
 })
+
 
 local cmp = require('cmp')
 local cmp_select = {behavior = cmp.SelectBehavior.Select}

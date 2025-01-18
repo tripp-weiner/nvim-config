@@ -20,5 +20,13 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("x", "<leader>p", [["_dP]])
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+vim.keymap.set("n", "<leader>ff", vim.lsp.buf.format)
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set({"n", "v"}, "<leader>;", "[[:let @+ = expand('%')<CR>]]")
+vim.keymap.set("v", "<leader>/", [[:s;^\(\s*\)\(.\);\1// \2;<CR>]])
+
+ vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
+   expr = true,
+   replace_keycodes = false
+ })
+ vim.g.copilot_no_tab_map = true
