@@ -9,16 +9,17 @@ return require('packer').startup(function(use)
   use {
 	  'nvim-telescope/telescope.nvim', tag = '0.1.5',
 	  -- or                            , branch = '0.1.x',
-	  requires = { {'nvim-lua/plenary.nvim'} }
+	  requires = { {'nvim-lua/plenary.nvim'} },
+		config = function()
+			require("telescope").setup({
+				pickers = {
+					find_files = {
+						find_command = { 'rg', '--files', '--iglob', '!.git', '--hidden' }
+					}
+				}
+			})
+		end
   }
-
-  use({
-	  'rose-pine/neovim',
-	  as = 'rose-pine',
-	  config = function()
-		  vim.cmd('colorscheme rose-pine')
-	  end
-  })
   use {
     'nvim-treesitter/nvim-treesitter',
     run = function()
@@ -82,5 +83,23 @@ return require('packer').startup(function(use)
 	})
 	use({
 		"github/copilot.vim",
+	})
+	use({
+		"CopilotC-Nvim/CopilotChat.nvim",
+		dependencies = {
+			{ "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
+			{ "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+		},
+		build = "make tiktoken", -- Only on MacOS or Linux
+		config = function()
+			local chat = require("CopilotChat")
+      chat.setup({
+				model = "claude-monet",
+				auto_follow_cursor = false,
+			})
+		end
+	})
+	use({
+		"/Users/trippweiner/Documents/workspace/personal/todo.nvim"
 	})
  end)
