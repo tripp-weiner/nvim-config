@@ -1,2 +1,6 @@
 local todo = require('todo')
 vim.keymap.set("n", "<leader>td", todo.toggle)
+vim.keymap.set("n", "<leader>tad", function()
+	todo.select_project("global")
+	todo.toggle()
+end)

@@ -43,22 +43,22 @@ return require('packer').startup(function(use)
 		  -- {'williamboman/mason.nvim'},
 		  -- {'williamboman/mason-lspconfig.nvim'},
 
-		  -- LSP Support
-		  {'neovim/nvim-lspconfig'},
-		  -- Autocompletion
-		  {'hrsh7th/nvim-cmp'},
-		  {'hrsh7th/cmp-nvim-lsp'},
-		  {'L3MON4D3/LuaSnip'},
-	  }
-  }
+			-- LSP Support
+			{'neovim/nvim-lspconfig'},
+			-- Autocompletion
+			{'hrsh7th/nvim-cmp'},
+			{'hrsh7th/cmp-nvim-lsp'},
+			{'L3MON4D3/LuaSnip'},
+		}
+	}
 	use({
-    "kylechui/nvim-surround",
-    tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-    config = function()
-        require("nvim-surround").setup({
-            -- Configuration here, or leave empty to use defaults
-        })
-    end
+		"kylechui/nvim-surround",
+		tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+		config = function()
+			require("nvim-surround").setup({
+				-- Configuration here, or leave empty to use defaults
+			})
+		end
 	})
 	use({
 		"mfussenegger/nvim-dap"
@@ -68,8 +68,8 @@ return require('packer').startup(function(use)
 		requires = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"}
 	})
 	use({
-    "Cliffback/netcoredbg-macOS-arm64.nvim",
-    requires = { "mfussenegger/nvim-dap" }
+		"Cliffback/netcoredbg-macOS-arm64.nvim",
+		requires = { "mfussenegger/nvim-dap" }
 	})
 	use({
 		"nicholasmata/nvim-dap-cs",
@@ -86,7 +86,7 @@ return require('packer').startup(function(use)
 	})
 	use({
 		"CopilotC-Nvim/CopilotChat.nvim",
-		dependencies = {
+		requires = {
 			{ "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
 			{ "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
 		},
@@ -95,4 +95,20 @@ return require('packer').startup(function(use)
 	use({
 		"/Users/trippweiner/Documents/workspace/personal/todo.nvim"
 	})
+	use({
+		"m4xshen/hardtime.nvim",
+		requires = { "MunifTanjim/nui.nvim" },
+	})
+	use 'rcarriga/nvim-notify'
+	use({
+		'MeanderingProgrammer/render-markdown.nvim',
+		after = { 'nvim-treesitter' },
+		requires = { 'echasnovski/mini.nvim', opt = true }, -- if you use the mini.nvim suite
+		-- requires = { 'echasnovski/mini.icons', opt = true }, -- if you use standalone mini plugins
+		-- requires = { 'nvim-tree/nvim-web-devicons', opt = true }, -- if you prefer nvim-web-devicons
+		config = function()
+			require('render-markdown').setup({})
+		end,
+	})
+
  end)

@@ -1,5 +1,4 @@
 local chat = require("CopilotChat")
-local actions = require("CopilotChat.actions")
 
 local prompts = {
   -- Code related prompts
@@ -24,7 +23,7 @@ local opts = {
 	question_header = "## User ",
 	answer_header = "## Copilot ",
 	error_header = "## Error ",
-	model = "claude-3.5-sonnet",
+	model = "claude-sonnet-4",
 	prompts = prompts,
 	auto_follow_cursor = false, -- Don't follow the cursor after getting response
 	mappings = {
@@ -61,10 +60,6 @@ local opts = {
 }
 
 chat.setup(opts)
-
-vim.keymap.set('n', '<leader>ccp', function()
-  require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
-end, { desc = "CopilotChat - Prompt actions" })
 
 -- vim.keymap.set('x', '<leader>ccp', ":lua require('CopilotChat.integrations.telescope').pick(require('CopilotChat.actions').prompt_actions({selection = require('CopilotChat.select').visual}))<CR>", { desc = "CopilotChat - Prompt actions" })
 
