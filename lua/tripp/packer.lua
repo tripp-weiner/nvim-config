@@ -3,6 +3,12 @@
 -- Only required if you have packer configured as `opt`
 vim.cmd [[packadd packer.nvim]]
 
+local is_mac = jit.os == "OSX"
+
+local function path_exists(path)
+	return vim.fn.isdirectory(path) == 1 or vim.fn.filereadable(path) == 1
+end
+
 return require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
@@ -67,10 +73,12 @@ return require('packer').startup(function(use)
 		"rcarriga/nvim-dap-ui",
 		requires = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"}
 	})
-	use({
-		"Cliffback/netcoredbg-macOS-arm64.nvim",
-		requires = { "mfussenegger/nvim-dap" }
-	})
+	if is_mac then
+		use({
+			"Cliffback/netcoredbg-macOS-arm64.nvim",
+			requires = { "mfussenegger/nvim-dap" }
+		})
+	end
 	use({
 		"nicholasmata/nvim-dap-cs",
 		requires = { "mfussenegger/nvim-dap" }
@@ -92,9 +100,9 @@ return require('packer').startup(function(use)
 		},
 		build = "make tiktoken", -- Only on MacOS or Linux
 	})
-	use({
-		"/Users/trippweiner/Documents/workspace/personal/todo.nvim"
-	})
+	local todo_local = os.getenv("HOME") .. "/Documents/workspace/personal/todo.nvim"
+	local todo_path = path_exists(todo_local) and todo_local or "TrippW/todo.nvim"
+	use({ todo_path })
 	use({
 		"m4xshen/hardtime.nvim",
 		requires = { "MunifTanjim/nui.nvim" },

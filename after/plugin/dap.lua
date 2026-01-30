@@ -1,5 +1,7 @@
-local dap=require('dap')
-require('netcoredbg-macOS-arm64').setup(dap)
+local dap = require('dap')
+if jit.os == "OSX" then
+	require('netcoredbg-macOS-arm64').setup(dap)
+end
 
 vim.keymap.set('n', '<F5>', function() dap.continue() end)
 vim.keymap.set('n', '<F10>', function() dap.step_over() end)
